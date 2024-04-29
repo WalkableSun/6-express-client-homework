@@ -10,20 +10,15 @@ import useToggle from "./hooks/useToggle";
 function App() {
   const [recipes, setRecipes] = React.useState([]);
   const [loggedin, setLoggedin] = useToggle(true);
-  const [loading, setLoading] = useToggle(true);
-  const [error, setError] = React.useState("");
+  const [loading, setLoading] = React.useState(true);
   const { get, post, del, put } = useFetch(`/api/recipes`);
-  const value = { recipes, loggedin };
 
   const addRecipe = (recipe) => {
-    post("/api/recipes", recipe).then((data) => {
-      setRecipes([data, ...recipes]);
-    });
+    post("/api/recipes", recipe).then((data) => setRecipes([data, ...recipes]));
   };
 
   const deleteRecipe = (recipeId) => {
-    console.log("recipeId:", recipeId);
-    del(`/api/recipes/${recipeId}`).then(
+    del(`/api/recipes/${recipeId}`).then(() =>
       setRecipes((recipes) =>
         recipes.filter((recipe) => recipe._id !== recipeId)
       )
@@ -31,62 +26,41 @@ function App() {
   };
 
   const editRecipe = (updatedRecipe) => {
-    console.log(updatedRecipe);
-    put(`/api/recipes/${updatedRecipe._id}`, updatedRecipe).then(
-      get("/api/recipes").then((data) => {
-        setRecipes(data);
-      })
-    );
+    put(`/api/recipes/${updatedRecipe._id}`, updatedRecipe).then(() => {
+      get("/api/recipes").then((data) => setRecipes(data));
+    });
   };
 
-  /* eslint-disable react-hooks/exhaustive-deps */
   React.useEffect(() => {
-    setLoading(true);
     get("/api/recipes")
       .then((data) => {
         setRecipes(data);
         setLoading(false);
       })
-      .catch((error) => {
-        setLoading(false);
-        setError(error);
-      });
-  }, []);
+      .catch(() => setLoading(false));
+  }, [get]);
 
-  // if (loading === true) {
-  //   return <p>Loading</p>;
-  // }
-
-  // if (error) {
-  //   return <p>{error}</p>;
-  // }
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   return (
-    <RecipesContext.Provider value={value}>
+    <RecipesContext.Provider
+      value={{
+        recipes,
+        loggedin,
+        setLoggedin,
+        addRecipe,
+        deleteRecipe,
+        editRecipe,
+      }}
+    >
       <main>
         <BrowserRouter>
-          <Nav setLoggedin={setLoggedin} loggedin={loggedin} />
+          <Nav />
           <Routes>
-            {/* NOTE - we no longer pass recipes as a prop to Recipes */}
-            <Route
-              path="/"
-              element={
-                <Recipes //loggedin={loggedin}
-                  addRecipe={addRecipe}
-                />
-              }
-            />
-            <Route
-              path="/:recipeId"
-              element={
-                <RecipeDetail
-                  recipes={recipes}
-                  deleteRecipe={deleteRecipe}
-                  // loggedin={loggedin}
-                  editRecipe={editRecipe}
-                />
-              }
-            />
+            <Route path="/" element={<Recipes />} />
+            <Route path="/:recipeId" element={<RecipeDetail />} />
           </Routes>
         </BrowserRouter>
       </main>

@@ -1,13 +1,16 @@
 import React from "react";
 import Button from "./Button";
+import RecipesContext from "./RecipesContext";
 
-const FormCreateRecipe = ({ addRecipe }) => {
+const FormCreateRecipe = () => {
   const [values, setValues] = React.useState({
     title: "Recipe Title",
     image: "toast.png",
     description: "Description of the recipe",
     year: "2024",
   });
+
+  const { addRecipe } = React.useContext(RecipesContext); // Ensure addRecipe is properly accessed from context
 
   const createRecipe = (event) => {
     event.preventDefault();
@@ -22,8 +25,6 @@ const FormCreateRecipe = ({ addRecipe }) => {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    console.log(" name:: ", name, " value:: ", value);
-    // computed property names
     setValues({ ...values, [name]: value });
   };
 

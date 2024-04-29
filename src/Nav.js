@@ -2,11 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Button from "./Button";
+import RecipesContext from "./RecipesContext";
 
 const StyledNav = styled.nav`
-  --bg-color: #007eb6;
-  --btn-color: var(--blue-dark);
-
   min-height: 3rem;
   background-color: #007eb6;
   margin-bottom: 1rem;
@@ -22,7 +20,9 @@ const StyledNav = styled.nav`
   }
 `;
 
-const Nav = ({ loggedin, setLoggedin }) => {
+const Nav = () => {
+  const { loggedin, setLoggedin } = React.useContext(RecipesContext);
+
   return (
     <StyledNav>
       <h1>

@@ -11,19 +11,18 @@ const FormEditRecipe = ({ editRecipe, thisRecipe }) => {
 
   const updateRecipe = (event) => {
     event.preventDefault();
-    const recipe = {
+    const updatedRecipe = {
       ...thisRecipe,
       title: values.title,
       image: values.image,
       description: values.description,
       year: values.year,
     };
-    editRecipe(recipe);
+    editRecipe(updatedRecipe);
   };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    console.log(" name:: ", name, " value:: ", value);
     setValues({ ...values, [name]: value });
   };
 
@@ -48,8 +47,8 @@ const FormEditRecipe = ({ editRecipe, thisRecipe }) => {
         <textarea
           placeholder="Recipe description"
           name="description"
-          onChange={handleInputChange}
           value={values.description}
+          onChange={handleInputChange}
         />
         <input
           type="text"
