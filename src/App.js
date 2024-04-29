@@ -14,7 +14,10 @@ function App() {
   const { get, post, del, put } = useFetch(`/api/recipes`);
 
   const addRecipe = (recipe) => {
-    post("/api/recipes", recipe).then((data) => setRecipes([data, ...recipes]));
+    post("/api/recipes", recipe).then((response) => {
+      // console.log(response);
+      setRecipes([recipe, ...recipes]);
+    });
   };
 
   const deleteRecipe = (recipeId) => {
