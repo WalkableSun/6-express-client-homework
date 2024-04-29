@@ -10,7 +10,7 @@ const FormCreateRecipe = () => {
     year: "2024",
   });
 
-  const { addRecipe } = React.useContext(RecipesContext); // Ensure addRecipe is properly accessed from context
+  const { addRecipe } = React.useContext(RecipesContext);
 
   const createRecipe = (event) => {
     event.preventDefault();
