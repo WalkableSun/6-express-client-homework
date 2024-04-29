@@ -8,8 +8,8 @@ function Recipes() {
   return (
     <section>
       {loggedin && <FormCreateRecipe />}
-      {recipes.map((recipe) => (
-        <Recipe key={recipe._id} recipe={recipe} />
+      {recipes.map((recipe, index) => (
+        <Recipe key={`${recipe._id}-${index}`} recipe={recipe} />
       ))}
     </section>
   );
