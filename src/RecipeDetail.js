@@ -54,7 +54,7 @@ function RecipeDetail() {
             thisRecipe={thisRecipe}
             editRecipe={handleEditRecipe}
           />
-          <Button func={() => delRecipe()} variant="delete">
+          <Button func={() => delRecipe()} $variant="delete">
             Delete
           </Button>
         </>

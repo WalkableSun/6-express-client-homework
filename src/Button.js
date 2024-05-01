@@ -10,18 +10,21 @@ const StyledButton = styled.button`
   border-radius: 3px;
   align-self: center;
   cursor: pointer;
-  background: var(--btn-color, #bada55);
 
+  /* Default button background color */
+  background: var(--btn-color, #bada55); // Green by default
+
+  /* Conditional color changes for different variants */
   ${(props) =>
-    props.variant === "delete" &&
+    props.$variant === "delete" &&
     `
-    background: #f00736;
+    background: red;
   `}
 `;
 
-export default function Button({ children, func, variant }) {
+export default function Button({ children, func, $variant }) {
   return (
-    <StyledButton onClick={func} variant={variant}>
+    <StyledButton onClick={func} $variant={$variant}>
       {children}
     </StyledButton>
   );
